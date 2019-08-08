@@ -1,0 +1,92 @@
+{% extends 'templates/template.html.twig' %}
+
+{% block title %}
+Crear provincia
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block body %}
+
+    
+    <div class="container">
+       
+                         
+        {% for msg in app.flashes('success') %}
+            <div class="alerta-success">
+                {{ msg }}
+            </div>
+        {% endfor %}
+                        
+        
+        <section class="content-box">
+
+            <nav class="menu-page">
+                <ul>
+                        
+                    <li>
+                        <a href="{{ path('provincias') }}" >Lista de provincias activas</a>
+                    </li>
+                
+                    <li>|</li>
+
+                    <li>
+                        <a href="{{ path('adminListProvincias') }}" >Lista de provincias completa</a>
+                    </li>
+                    
+                </ul>
+
+            </nav>
+
+            <div>
+                <h2 class="paises-title">Crear provincia nueva</h2>
+            </div>
+            
+            <div>
+
+                <form class="form-style1" action="{{ path('crearProvincias') }}" method="POST">
+
+                    <div class="form-group">
+                        <label for="provincia">Nombre:</label>
+                        <input class="form-control" type="text" name="provincia" id="provincia" value="" placeholder="">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="abrev">Abreviación:</label>
+                        <input class="form-control" type="text" name="abrev" id="abrev" value="" placeholder="">
+                    </div>
+
+                    <div class="form-group">
+                            <label for="pais">Pais:</label>
+                            <select class="form-control" name="paisId" id="pais">
+                                {% for pais in paises %}
+                                    <option value="{{pais.id}}"> {{ pais.descripcion }} </option>
+                                {% endfor %}
+                            </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="activo">Estado:</label>
+                        <select class="form-control" name="activo" id="activo">
+                            <option value="1" selected>Activo</option>
+                            <option value="0" >No activo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-btn-center">
+                        <button type="submit" class="btn-style1">Guardar</button>
+                    </div>
+
+                </form>            
+                 
+               
+            </div>
+        </section>
+       
+    </div>
+
+{% endblock %}
+
+

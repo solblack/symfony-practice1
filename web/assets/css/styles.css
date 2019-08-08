@@ -1,0 +1,258 @@
+/* General styling */
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+    color: rgb(61, 61, 61);
+    background-color: rgb(184, 204, 212) !important;
+    width: 100 vw;
+}
+
+ul, ol, li {
+    list-style: none;
+}
+
+ul{
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: inherit;
+    color: rgb(61, 61, 61);
+}
+
+a:hover {
+    color: pink;
+    text-decoration: inherit;
+}
+
+/* header */
+header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    background-color: black;
+    color: white;
+}
+
+.menu{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 40px;
+    align-items: center;
+}
+
+.menu li{
+    margin:  0 15px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    text-transform: uppercase;
+}
+
+.menu li a{
+    text-decoration: none;
+    color: inherit;
+}
+
+.menu li a:hover{
+    color: pink
+}
+
+
+
+/* home */
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+}
+
+.welcome-title{
+    font-family: 'Raleway', sans-serif;
+    font-weight: lighter;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+    font-size: 6em;
+}
+
+
+.form-buscador{
+    margin: 20px auto;
+    display:  grid;
+    grid-template: repeat(2, 1fr) / repeat(4, 1fr) 60px;          
+}
+
+.input-buscador{
+    padding: 10px;
+    border-radius: 10px;
+    background-color: none;
+    min-width: 30vw;
+    border: 2px solid rgb(63, 63, 63);
+    height: 50px;
+    grid-area: 1 / 1 / span 1 / span 4;
+}
+
+.radio-buscador{
+    grid-area: 2 / 1 / span 1 / span 4;
+    color: rgb(63, 63, 63);
+    font-size: 15px;
+    font-weight: bold;
+    display:  flex;
+    justify-content: center;
+}
+
+.radio-buscador input{
+    margin: 10px 5px;
+}
+
+.radio-buscador span{
+    margin: 7px 25px 10px 0;
+}
+
+.btn-buscador{
+    padding: 10px;
+    margin-left: 10px;
+    border-radius: 10px;
+    background-color:  rgb(29, 29, 29);
+    width: 50px;
+    height: 50px;
+    border: none;
+    color: white;
+    grid-area: 1 / 5 / span 1 / span 1;
+}
+
+.btn-buscador:hover{
+    background-color:  pink;
+}
+
+/* paises y provincias pages */
+
+.paises-title{
+    font-family: 'Raleway', sans-serif;
+    font-weight: lighter;
+    text-align: center;
+    vertical-align: middle;
+    color: rgb(61, 61, 61);
+    font-size: 2.5em;
+    margin: 40px 0 10px;
+}
+
+.content-box{
+    background-color: rgba(255, 255, 255);
+    padding: 50px 30px;
+    margin: 50px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60vw;
+}
+
+.detalles-box{
+    margin: 20px 0 30px;
+}
+
+.delete-icon{
+    font-family: 'Raleway', sans-serif;
+    font-size: 15px;
+}
+
+.btn-style1{
+    padding: auto;
+    border-radius: 10px;
+    background-color: transparent;
+    margin: 10px;
+    height: 30px;
+    border: 2px solid rgb(43, 43, 43);
+    color: rgb(43, 43, 43);
+    text-decoration: none;
+}
+
+.btn-style1:hover {
+    color: pink;
+    border: 2px solid pink;
+}
+
+.form-style1{
+    display: inline;
+}
+
+.lista-paises li{
+    margin-bottom: 15px;
+}
+
+.table-container{
+    display: flex;
+    justify-content:  center;
+}
+
+.tabla-lista{
+    width: 80%;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.tabla-lista th{
+    text-align: center;
+}
+
+.tabla-lista td, .tabla-lista th{
+    padding: 10px 30px;
+    
+}
+
+.menu-page ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.menu-page ul li{
+    margin-right: 10px;
+}
+
+.alerta-success {
+    z-index: 100;
+    background-color: rgba(27, 27, 27, 0.95);
+    border: none;
+    color: white;
+    position: absolute;
+    top: 50px;
+    padding: 5px 90px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: lighter;
+    text-align: center;
+    font-size: 1.2em;
+    border-radius: 10px;
+    opacity: 0;
+    animation-name: fade;
+    animation-duration: 4s;
+    animation-iteration-count: 1;
+}
+
+@keyframes fade {
+    0% { opacity: 0;   }
+    40% { opacity: 100;  }
+    90% { opacity: 100;   }
+    100% { opacity: 0;  }
+  }
+
+
+.form-control{
+    width: 45vw;
+}
+
+.form-btn-center {
+    display:  flex;
+    justify-content:  center;  
+}

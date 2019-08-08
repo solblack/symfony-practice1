@@ -1,0 +1,138 @@
+{% extends 'templates/template.html.twig' %}
+
+{% block title %}
+Paises
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block body %}
+
+    
+    <div class="container">
+                         
+        {% for msg in app.flashes('success') %}
+            <div class="alerta-success">
+                {{ msg }}
+            </div>
+        {% endfor %}
+        
+        <section class="content-box">
+            <div>
+                    <nav class="menu-page">
+                            <ul>
+                                {% if abm == false %}
+                                     <li>
+                                        <a href="{{ path('nuevoPais') }}" ><i class="fas fa-plus"></i> Crear nuevo pais</a>
+                                    </li>
+                                    <li>|</li>
+                                    <li>
+                                        <a href="{{ path('adminListPaises') }}" >Lista completa de paises</a>
+                                    </li>
+                                {% endif %}
+                                
+                                {% if abm == true %}
+                                <li>
+                                    <a href="{{ path('nuevoPais') }}" ><i class="fas fa-plus"></i> Crear nuevo pais</a>
+                                </li>
+                                <li>|</li>
+                                <li>
+                                    <a href="{{ path('paises') }}" >Volver a paises activos</a>
+                                </li>
+                                
+                                 {% endif %}
+        
+                            </ul>
+        
+                        </nav>
+
+                <h2 class="paises-title">Lista de paises</h2>
+
+                
+            </div>
+            
+            <div>
+                {% if abm == false %}
+                    <table class="tabla-lista">
+                        <thead>
+                        <th>ID</th>
+                        <th>Pais</th> 
+                        <th>Abrev</th>
+                        <th>Detalle</th>
+                        </thead>
+                        {% for pais in paises %}
+                            <tr>
+                                <td> {{ pais.id }} </td>
+                                <td> {{ pais.descripcion }} </td>
+                                <td> {{ pais.abrev }} </td>
+                                <td>
+                                    <a href="{{ path('paises')}}/{{ pais.id }}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+
+            {% if abm == true %}
+                <table class="tabla-lista">
+                    <thead>
+                        <th>Pais</th>
+                        <th>Borrar</th> 
+                        <th>Estado</th>
+                        <th>Detalle</th>
+                    </thead>
+                    <tbody>
+                    {% for pais in paises %}
+                        <tr>
+                            <td> {{ pais.descripcion }} </td>
+                            <td>
+                                <form class="form-style1" action="{{ path('adminListPaises') }}" method="post">
+                                    <input type="hidden" name="idPais" value="{{ pais.id }}">
+                                    <input type="hidden" name="action" value="borrar">
+                                    <button type="submit" class="btn-style1">Borrar</button>
+                                </form>
+                            </td>
+                            {% if pais.activo == true %}
+                                <td>
+                                    <form class="form-style1" action="{{ path('adminListPaises') }}" method="post">
+                                            <input type="hidden" name="idPais" value="{{ pais.id }}">
+                                            <input type="hidden" name="action" value="desactivar">
+                                            <button type="submit" class="btn-style1">Desactivar</button>
+                                    </form>
+                                </td>   
+                            {% endif %}
+
+                            {% if pais.activo == false %}
+                                <td>
+                                    <form class="form-style1" action="{{ path('adminListPaises') }}" method="post">
+                                        <input type="hidden" name="idPais" value="{{ pais.id }}">
+                                        <input type="hidden" name="action" value="activar">
+                                        <button type="submit" class="btn-style1">Activar</button>
+                                    </form>
+                                </td>
+                            {% endif %}
+                            <td>
+                                <a href="{{ path('paises')}}/{{ pais.id }}">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+             </table>
+            {% endif %}
+
+               
+            </div>
+        </section>
+       
+    </div>
+
+{% endblock %}
+
+

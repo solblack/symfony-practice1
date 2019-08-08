@@ -1,0 +1,115 @@
+{% extends 'templates/template.html.twig' %}
+
+{% block title %}
+Detalle de provincia
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block body %}
+
+    
+    <div class="container">
+       
+                         
+        {% for msg in app.flashes('success') %}
+            <div class="alerta-success">
+                {{ msg }}
+            </div>
+        {% endfor %}
+                        
+        
+        <section class="content-box">
+
+                <nav class="menu-page">
+                        <ul>
+                            <li>
+                                <a href="{{ path('nuevaProvincia') }}" ><i class="fas fa-plus"></i> Crear nueva provincia</a>
+                            </li>
+
+                            <li>|</li>
+
+                            <li>
+                                <a href="{{ path('adminListProvincias') }}" >Lista completa de provincias</a>
+                            </li>
+                        
+                            <li>|</li>
+
+                            <li>
+                                <a href="{{ path('provincias') }}" >Lista de provincias activas</a>
+                            </li>
+                          
+                        </ul>
+    
+                    </nav>
+                    
+                    
+            <div>
+                <h2 class="paises-title">Detalle de provincia</h2>
+            </div>
+            
+            <div>
+
+            <div class="detalles-box">
+                    <ul >
+                            <li>
+                                Nombre: {{ provincia.descripcion }}
+                            </li>
+                            <li>
+                                Abreviación: {{ provincia.abrev }}
+                            </li>
+                            <li>
+                                    Pais: {{ provincia.pais.descripcion }}
+                            </li>
+                            <li>
+                                Estado: {% if provincia.activo == 1 %}
+                                    ACTIVO
+                                {% else %}
+                                    NO ACTIVO
+                                {% endif %}    
+                            </li>
+
+                    </ul> 
+            </div>
+                
+                        
+
+                        <form class="form-style1" action="{{ path('provincias')}}/{{ provincia.id }}" method="post">
+                            <input type="hidden" name="idProvincia" value="{{ provincia.id }}">
+                            <input type="hidden" name="action" value="borrar">
+                            <button type="submit" class="btn-style1">Borrar</button>
+                        </form>
+
+
+                        {% if provincia.activo == 1 %}
+                            <form class="form-style1" action="{{ path('provincias') }}/{{ provincia.id }}" method="post">
+                                <input type="hidden" name="idProvincia" value="{{ provincia.id }}">
+                                <input type="hidden" name="action" value="desactivar">
+                                <button type="submit" class="btn-style1">Desactivar</button>
+                            </form>
+                        {% else %}
+                            <form class="form-style1" action="{{ path('provincias') }}/{{ provincia.id }}" method="post">
+                                <input type="hidden" name="idProvincia" value="{{ provincia.id }}">
+                                <input type="hidden" name="action" value="activar">
+                                <button type="submit" class="btn-style1">Activar</button>
+                            </form>      
+                        {% endif %}
+
+
+                        <button class="btn-style1"><a href="{{ path('editarProvincia', {'id': provincia.id }) }}">Editar</a></button>
+                                
+                          
+                   
+                
+                 
+               
+            </div>
+        </section>
+       
+    </div>
+
+{% endblock %}
+
+

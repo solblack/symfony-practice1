@@ -1,0 +1,29 @@
+{% extends 'templates/template.html.twig' %}
+
+{% block title %}
+Bienvenidos!
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
+{% endblock %}
+
+{% block body %}
+    
+    <div class="container">
+        <h1 class="welcome-title">Bienvenido!</h1>
+
+        <form class="form-buscador" action="{{ path('buscador') }}" method="GET">
+            <input type="text" name="search" class="input-buscador" value="" placeholder="Buscar país o provincia">
+            <button type="submit" class="btn-buscador"><i class="fas fa-search"></i></button>
+            <div class="radio-buscador">
+                    <input type="radio" name="tipo" value="pais" checked> <span>Pais</span>
+                    <input type="radio" name="tipo" value="provincia"> <span>Provincia</span>
+            </div>
+            
+        </form>
+    </div>
+
+{% endblock %}
+
+

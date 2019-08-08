@@ -1,0 +1,140 @@
+{% extends 'templates/template.html.twig' %}
+
+{% block title %}
+Provincias
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block body %}
+
+    
+    <div class="container">
+                         
+        {% for msg in app.flashes('success') %}
+            <div class="alerta-success">
+                {{ msg }}
+            </div>
+        {% endfor %}
+        
+        <section class="content-box">
+            <div>
+                    <nav class="menu-page">
+                            <ul>
+                                {% if abm == false %}
+                                     <li>
+                                        <a href="{{ path('nuevaProvincia') }}" ><i class="fas fa-plus"></i> Crear nueva provincia</a>
+                                    </li>
+                                    <li>|</li>
+                                    <li>
+                                        <a href="{{ path('adminListProvincias') }}" >Lista completa de provincias</a>
+                                    </li>
+                                {% endif %}
+                                
+                                {% if abm == true %}
+                                <li>
+                                    <a href="{{ path('nuevaProvincia') }}" ><i class="fas fa-plus"></i> Crear nueva provincia</a>
+                                </li>
+                                <li>|</li>
+                                <li>
+                                    <a href="{{ path('provincias') }}" >Volver a provincias activas</a>
+                                </li>
+                                
+                                 {% endif %}
+        
+                            </ul>
+        
+                        </nav>
+
+                <h2 class="paises-title">Lista de provincias</h2>
+
+                
+            </div>
+            
+            <div class="table-container">
+                {% if abm == false %}
+                    <table class="tabla-lista">
+                        <thead>
+                        <th>ID</th>
+                        <th>Provincia</th> 
+                        <th>Abrev</th>
+                        <th>Pais</th>
+                        <th>Detalle</th>
+                        </thead>
+                        {% for provincia in provincias %}
+                            <tr>
+                                <td> {{ provincia.id }} </td>
+                                <td> {{ provincia.descripcion }} </td>
+                                <td> {{ provincia.abrev }} </td>
+                                <td><a href="{{ path('paises')}}/{{ provincia.pais.id }}">{{ provincia.pais.descripcion }} </a> </td>
+                               
+                                <td>
+                                    <a href="{{ path('provincias')}}/{{ provincia.id }}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+
+            {% if abm == true %}
+                <table class="tabla-lista">
+                    <thead>
+                        <th>Provincia</th>
+                        <th>Borrar</th> 
+                        <th>Estado</th>
+                        <th>Detalle</th>
+                    </thead>
+                    <tbody>
+                    {% for provincia in provincias %}
+                        <tr>
+                            <td> {{ provincia.descripcion }} </td>
+                            <td>
+                                <form class="form-style1" action="{{ path('adminListProvincias') }}" method="post">
+                                    <input type="hidden" name="idProvincias" value="{{ provincia.id }}">
+                                    <input type="hidden" name="action" value="borrar">
+                                    <button type="submit" class="btn-style1">Borrar</button>
+                                </form>
+                            </td>
+                            {% if provincia.activo == true %}
+                                <td>
+                                    <form class="form-style1" action="{{ path('adminListProvincias') }}" method="post">
+                                            <input type="hidden" name="idProvincia" value="{{ provincia.id }}">
+                                            <input type="hidden" name="action" value="desactivar">
+                                            <button type="submit" class="btn-style1">Desactivar</button>
+                                    </form>
+                                </td>   
+                            {% endif %}
+
+                            {% if provincia.activo == false %}
+                                <td>
+                                    <form class="form-style1" action="{{ path('adminListProvincias') }}" method="post">
+                                        <input type="hidden" name="idProvincia" value="{{ provincia.id }}">
+                                        <input type="hidden" name="action" value="activar">
+                                        <button type="submit" class="btn-style1">Activar</button>
+                                    </form>
+                                </td>
+                            {% endif %}
+                            <td>
+                                <a href="{{ path('provincias')}}/{{ provincia.id }}">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+             </table>
+            {% endif %}
+
+               
+            </div>
+        </section>
+       
+    </div>
+
+{% endblock %}
+
+

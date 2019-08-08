@@ -1,0 +1,84 @@
+{% extends 'templates/template.html.twig' %}
+
+{% block title %}
+Editar país
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block body %}
+
+    
+    <div class="container">
+       
+                         
+        {% for msg in app.flashes('success') %}
+            <div class="alerta-success">
+                {{ msg }}
+            </div>
+        {% endfor %}
+                        
+        
+        <section class="content-box">
+
+            <nav class="menu-page">
+                <ul>
+                        
+                    <li>
+                        <a href="{{ path('paises') }}" >Lista de paises</a>
+                    </li>
+                
+                    <li>|</li>
+
+                    <li>
+                        <a href="{{ path('paises') }}/{{ pais.id }}" >Volver al detalle de {{ pais.descripcion }}</a>
+                    </li>
+                    
+                </ul>
+
+            </nav>
+            
+            <div>
+                <h2 class="paises-title">Editar país</h2>
+            </div>
+            
+            <div>
+                    
+                <form class="form-style1" action="{{ path('editarPais', {'id': pais.id }) }}" method="POST">
+                    <div class="form-group">
+                        <label for="pais">Nombre:</label>
+                        <input class="form-control" type="text" name="pais" id="pais" value="" placeholder="{{ pais.descripcion }}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="abrev">Abreviación:</label>
+                        <input class="form-control" type="text" name="abrev" id="abrev" value="" placeholder="{{ pais.abrev }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="activo">Estado:</label>
+                        <select class="form-control" name="activo" id="activo">
+                            <option value="1" {% if pais.activo == "1" %} selected {% endif %}>Activo</option>
+                            <option value="0" {% if pais.activo == "0" %} selected {% endif %} >No activo</option>
+                        </select>
+                    </div>
+
+                    <input type="hidden" name="action" value="guardar">
+
+                    <div class="form-btn-center">
+                        <button type="submit" class="btn-style1">Guardar</button>
+                    </div>
+
+                </form>
+        
+               
+            </div>
+        </section>
+       
+    </div>
+
+{% endblock %}
+
+
