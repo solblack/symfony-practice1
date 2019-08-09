@@ -50,7 +50,7 @@ Detalle de país
                 <h2 class="paises-title">Detalle de país</h2>
             </div>
             
-            <div>
+            
 
             <div class="detalles-box">
                     <ul >
@@ -71,38 +71,40 @@ Detalle de país
                     </ul> 
             </div>
                 
+                       
+            <div class="flexrow">
+                
+                <form class="form-style1" action="{{ path('paises')}}/{{ pais.id }}" method="post">
+                    <input type="hidden" name="idPais" value="{{ pais.id }}">
+                    <input type="hidden" name="action" value="borrar">
+                    <button type="submit" class="btn-style1">Borrar</button>
+                </form>
+
+
+                {% if pais.activo == 1 %}
+                    <form class="form-style1" action="{{ path('paises') }}/{{ pais.id }}" method="post">
+                        <input type="hidden" name="idPais" value="{{ pais.id }}">
+                        <input type="hidden" name="action" value="desactivar">
+                        <button type="submit" class="btn-style1">Desactivar</button>
+                    </form>
+                {% else %}
+                    <form class="form-style1" action="{{ path('paises') }}/{{ pais.id }}" method="post">
+                        <input type="hidden" name="idPais" value="{{ pais.id }}">
+                        <input type="hidden" name="action" value="activar">
+                        <button type="submit" class="btn-style1">Activar</button>
+                    </form>      
+                {% endif %}
+
+
+                <button class="btn-style1"><a href="{{ path('editarPais', {'id': pais.id }) }}">Editar</a></button>
                         
 
-                        <form class="form-style1" action="{{ path('paises')}}/{{ pais.id }}" method="post">
-                            <input type="hidden" name="idPais" value="{{ pais.id }}">
-                            <input type="hidden" name="action" value="borrar">
-                            <button type="submit" class="btn-style1">Borrar</button>
-                        </form>
+            </div>
 
-
-                        {% if pais.activo == 1 %}
-                            <form class="form-style1" action="{{ path('paises') }}/{{ pais.id }}" method="post">
-                                <input type="hidden" name="idPais" value="{{ pais.id }}">
-                                <input type="hidden" name="action" value="desactivar">
-                                <button type="submit" class="btn-style1">Desactivar</button>
-                            </form>
-                        {% else %}
-                            <form class="form-style1" action="{{ path('paises') }}/{{ pais.id }}" method="post">
-                                <input type="hidden" name="idPais" value="{{ pais.id }}">
-                                <input type="hidden" name="action" value="activar">
-                                <button type="submit" class="btn-style1">Activar</button>
-                            </form>      
-                        {% endif %}
-
-
-                        <button class="btn-style1"><a href="{{ path('editarPais', {'id': pais.id }) }}">Editar</a></button>
-                                
+                       
                           
                    
-                
-                 
-               
-            </div>
+             
         </section>
        
     </div>

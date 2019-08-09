@@ -2,9 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\Pais;
 use AppBundle\Entity\Provincia;
 
@@ -96,30 +101,59 @@ class ProvinciaController extends Controller
      */
     public function editarProvincia($id, Request $request)
     {
-        if ($request->get('action')) {
-            $action = $request->get('action');
-                        
-            switch ($action) {
-                case 'guardar':
-                    $this->guardar($request); 
-                    $url= $this->generateUrl('detalleProvincia', [ 'id' => $id,]);
-                    return $this->redirect($url);
-                    break;
-               
-                default:
-                    $this->addFlash('error', "La acción seleccionada no es válida"); 
-                    break; 
-            }
-            
-        }
-
         $em = $this->getDoctrine()->getManager();
 
         $provincia = $em->getRepository(Provincia::class)->findOneById($id);
      
-        $paises = $em->getRepository(Pais::class)->findBy(array('activo'=>true), array('descripcion' => 'ASC'));
+        $form = $this->createFormBuilder($provincia)
+        ->add('descripcion', TextType::class, ['label' => 'Nombre:',
+        ])
 
-        return $this->render('editarprovincia.html.twig', ['provincia' => $provincia, 'paises' => $paises  ]);
+        ->add('abrev', TextType::class, ['label' => 'Abreviación:',
+        ])
+
+        ->add('pais', EntityType::class, ['label' => 'Pais:',
+        'class' => 'AppBundle:Pais',
+        'query_builder' => function (EntityRepository $repositoryPais) {
+                                return $repositoryPais->createQueryBuilder('paises')
+                                          ->where('paises.activo LIKE :activo')
+                                          ->setParameter('activo', '1')
+                                          ->orderBy('paises.descripcion', 'ASC');
+                             },
+        'choice_label' => 'descripcion',
+        ])
+
+        ->add('activo', ChoiceType::class, ['label' => 'Estado:',
+        'choices'  => ['ACTIVO' => '1', 'NO ACTIVO' => '0']])
+
+        ->add('save', SubmitType::class, ['label' => 'Guardar',
+        'attr' => ['class' => 'btn-style1 btn-center']])
+
+        ->getForm();    
+
+        
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $provincia = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($provincia);
+            $entityManager->flush();
+
+            $nombreProvincia = $provincia->getDescripcion();
+
+            $this->addFlash('success', "La provincia $nombreProvincia ha sido editada");
+
+            $url= $this->generateUrl('detalleProvincia', [ 'id' => $id,]);
+            return $this->redirect($url);
+
+        }
+
+
+        return $this->render('editarprovincia.html.twig', ['provincia' => $provincia, 'form' => $form->createView()  ]);
+        
     }
 
     /**
@@ -127,12 +161,54 @@ class ProvinciaController extends Controller
      */
     public function nuevaProvincia(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $provincia = new Provincia();
         
-        $paises = $em->getRepository('AppBundle:Pais')->findBy(array('activo'=>true), array('descripcion' => 'ASC'));
+        $form = $this->createFormBuilder($provincia)
+                ->add('descripcion', TextType::class, ['label' => 'Nombre:',
+                ])
 
-        return $this->render('nuevaprovincia.html.twig', ['paises' => $paises ]);
+                ->add('abrev', TextType::class, ['label' => 'Abreviación:',
+                ])
 
+                ->add('pais', EntityType::class, ['label' => 'Pais:',
+                'class' => 'AppBundle:Pais',
+                'query_builder' => function (EntityRepository $repositoryPais) {
+                                        return $repositoryPais->createQueryBuilder('paises')
+                                                  ->where('paises.activo LIKE :activo')
+                                                  ->setParameter('activo', '1')
+                                                  ->orderBy('paises.descripcion', 'ASC');
+                                     },
+                'choice_label' => 'descripcion',
+                ])
+
+                ->add('activo', ChoiceType::class, ['label' => 'Estado:',
+                'choices'  => ['ACTIVO' => '1', 'NO ACTIVO' => '0']])
+
+                ->add('save', SubmitType::class, ['label' => 'Guardar',
+                'attr' => ['class' => 'btn-style1 btn-center']])
+
+                ->getForm();    
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $provincia = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($provincia);
+            $entityManager->flush();
+
+            $nombreProvincia = $provincia->getDescripcion();
+
+            $this->addFlash('success', "La provincia $nombreProvincia ha sido creada");
+
+            return $this->redirectToRoute('provincias');
+
+        }
+
+        return $this->render('nuevaprovincia.html.twig', ['form' => $form->createView() ]);
+        
     }
      
      /**
@@ -140,6 +216,7 @@ class ProvinciaController extends Controller
      */
     public function crear(Request $request)
     {
+                
         $provinciaDescripcion = strtoupper($request->get('provincia'));
         $provinciaAbrev = strtoupper($request->get('abrev'));
         $provinciaActivo = $request->get('activo');
@@ -178,7 +255,7 @@ class ProvinciaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $provincia = $em->getRepository(Provincia::class)->findOneById($id);
+        $provincia = $em->getRepository(Provincia::class)->find($id);
         $em->remove($provincia);
         $em->flush();
 
@@ -239,7 +316,7 @@ class ProvinciaController extends Controller
 
         if ($request->get('abrev')) {
             $provinciaAbrev = strtoupper($request->get('abrev'));
-            $provincias->setAbrev($provinciaAbrev);
+            $provincia->setAbrev($provinciaAbrev);
         }
         
         if ($request->get('activo')) {

@@ -5,6 +5,9 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use AppBundle\Entity\Pais;
 
 
@@ -95,28 +98,49 @@ class PaisController extends Controller
      */
     public function editarPais($id, Request $request)
     {
-        if ($request->get('action')) {
-            $action = $request->get('action');
-                        
-            switch ($action) {
-                case 'guardar':
-                    $this->guardar($request); 
-                    $url= $this->generateUrl('detallePais', [ 'id' => $id,]);
-                    return $this->redirect($url);
-                    break;
-               
-                default:
-                    $this->addFlash('error', "La acción seleccionada no es válida"); 
-                    break; 
-            }
-            
-        }
-
+        
         $em = $this->getDoctrine()->getManager();
 
         $pais = $em->getRepository(Pais::class)->findOneById($id);
+      
 
-        return $this->render('editarpais.html.twig', ['pais' => $pais ]);
+        $form = $this->createFormBuilder($pais)
+                ->add('descripcion', TextType::class, ['label' => 'Nombre:',
+                ])
+
+                ->add('abrev', TextType::class, ['label' => 'Abreviación:',
+                ])
+
+                ->add('activo', ChoiceType::class, ['label' => 'Estado:',
+                'choices'  => ['ACTIVO' => '1', 'NO ACTIVO' => '0']])
+
+                ->add('save', SubmitType::class, ['label' => 'Guardar',
+                'attr' => ['class' => 'btn-style1 btn-center']])
+
+                ->getForm();    
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $pais = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($pais);
+            $entityManager->flush();
+
+            $nombrePais = $pais->getDescripcion();
+
+            $this->addFlash('success', "El país $nombrePais ha sido editado");
+
+            $url= $this->generateUrl('detallePais', [ 'id' => $id,]);
+            return $this->redirect($url);
+
+        }
+
+        return $this->render('editarpais.html.twig', ['pais' => $pais, 'form' => $form->createView() ]);
+      
+
     }
 
     /**
@@ -124,7 +148,42 @@ class PaisController extends Controller
      */
     public function nuevoPais(Request $request)
     {
-        return $this->render('nuevopais.html.twig', [ ]);
+        $pais = new Pais();
+
+        $form = $this->createFormBuilder($pais)
+                ->add('descripcion', TextType::class, ['label' => 'Nombre:',
+                ])
+
+                ->add('abrev', TextType::class, ['label' => 'Abreviación:',
+                ])
+
+                ->add('activo', ChoiceType::class, ['label' => 'Estado:',
+                'choices'  => ['ACTIVO' => '1', 'NO ACTIVO' => '0']])
+
+                ->add('save', SubmitType::class, ['label' => 'Guardar',
+                'attr' => ['class' => 'btn-style1 btn-center']])
+
+                ->getForm();    
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $pais = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($pais);
+            $entityManager->flush();
+
+            $nombrePais = $pais->getDescripcion();
+
+            $this->addFlash('success', "El país $nombrePais ha sido creado");
+
+            return $this->redirectToRoute('paises');
+
+        }
+
+        return $this->render('nuevopais.html.twig', ['form' => $form->createView() ]);
 
     }
      

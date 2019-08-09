@@ -14,7 +14,7 @@
 
         <!-- Bootstrap -->
         <link rel="stylesheet" href="{{ asset('assets/components/bootstrap/css/bootstrap.min.css') }}" >
-        <script src="{{ asset('assets/components/bootstrap/js/bootstrap.min.js') }}" ></script>
+       
 
         <!-- css -->
         <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
@@ -28,20 +28,60 @@
                 </li>
 
                 <li>
-                    <a href="{{ path('paises') }}">Países</a>                
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         Países
+                        </a>
+                      
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <ul>
+                                <li>
+                                    <a class="dropdown-item" href="{{ path('paises') }}">Lista de países activos</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ path('adminListPaises') }}">Lista completa de países</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ path('nuevoPais') }}">Crear país nuevo</a>
+                                </li>
+                            </ul>   
+                        </div>
+                    </div>
                 </li>
+
                 <li>
-                    <a href="{{ path('provincias') }}">Provincias</a>                
-                </li>
-                
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                             Provincias
+                            </a>
+                          
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <ul>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ path('provincias') }}">Lista de provincias activas</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ path('adminListProvincias') }}">Lista completa de provincias</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ path('nuevaProvincia') }}">Crear provincia nueva</a>
+                                    </li>
+                                </ul>   
+                            </div>
+                        </div>
+                    </li>
             </ul>
         </header>
      
         {% block body %}{% endblock %}
         
-         <!-- Bootstrap -->
+         <!-- Scripts de Bootstrap -->
          <script src="{{ asset('assets/components/jquery/jquery.min.js') }}" ></script>
-         <script src="{{ asset('assets/components/css/js/bootstrap.js') }}" ></script>
+         <script src="{{ asset('assets/components/bootstrap/js/bootstrap.js') }}" ></script>
+         <script src="{{ asset('assets/components/bootstrap/js/bootstrap.min.js') }}" ></script>
+         <script src="{{ asset('assets/components/bootstrap/js/dropdown.js') }}" ></script>
+
+
 
          {% block javascripts %}{% endblock %}
 

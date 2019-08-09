@@ -46,7 +46,12 @@ Crear país
             
             <div>
 
-                <form class="form-style1" action="{{ path('crearPaises') }}" method="POST">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+
+
+                <!-- <form class="form-style1" action="{{ path('crearPaises') }}" method="POST">
 
                     <div class="form-group">
                         <label for="pais">Nombre:</label>
@@ -70,7 +75,7 @@ Crear país
                         <button type="submit" class="btn-style1">Guardar</button>
                     </div>
 
-                </form>            
+                </form>             -->
                  
                
             </div>

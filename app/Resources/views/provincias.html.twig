@@ -94,7 +94,7 @@ Provincias
                             <td> {{ provincia.descripcion }} </td>
                             <td>
                                 <form class="form-style1" action="{{ path('adminListProvincias') }}" method="post">
-                                    <input type="hidden" name="idProvincias" value="{{ provincia.id }}">
+                                    <input type="hidden" name="idProvincia" value="{{ provincia.id }}">
                                     <input type="hidden" name="action" value="borrar">
                                     <button type="submit" class="btn-style1">Borrar</button>
                                 </form>

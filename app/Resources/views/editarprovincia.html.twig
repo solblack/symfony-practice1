@@ -46,47 +46,9 @@ Editar provincia
             
             <div>
                     
-                <form class="form-style1" action="{{ path('editarProvincia', {'id': provincia.id }) }}" method="POST">
-                    <div class="form-group">
-                        <label for="provincia">Nombre:</label>
-                        <input class="form-control" type="text" name="pais" id="provincia" value="" placeholder="{{ provincia.descripcion }}">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="abrev">Abreviación:</label>
-                        <input class="form-control" type="text" name="abrev" id="abrev" value="" placeholder="{{ provincia.abrev }}">
-                    </div>
-
-                    <div class="form-group">
-                            <label for="pais">Pais:</label>
-                            <select class="form-control" name="paisId" id="pais">
-                                {% for pais in paises %}
-                                    <option value="{{pais.id}}" 
-                                    
-                                    {% if pais.id == provincia.pais.id %}
-                                        selected    
-                                    {% endif %}
-                                    
-                                    > {{ pais.descripcion }} </option>
-                                {% endfor %}
-                            </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="activo">Estado:</label>
-                        <select class="form-control" name="activo" id="activo">
-                            <option value="1" {% if provincia.activo == "1" %} selected {% endif %}>Activo</option>
-                            <option value="0" {% if provincia.activo == "0" %} selected {% endif %} >No activo</option>
-                        </select>
-                    </div>
-
-                    <input type="hidden" name="action" value="guardar">
-
-                    <div class="form-btn-center">
-                        <button type="submit" class="btn-style1">Guardar</button>
-                    </div>
-
-                </form>
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    {{ form_end(form) }}
         
                
             </div>

@@ -64,6 +64,17 @@ header{
     color: pink
 }
 
+.dropdown-menu{
+    background-color: black;
+    width: 30vw;
+}
+
+.dropdown-menu ul li a{
+    text-transform:  none;
+}
+.dropdown-menu ul li {
+    padding: 10px 0;
+}
 
 
 /* home */
@@ -158,6 +169,12 @@ header{
     width: 60vw;
 }
 
+.flexrow{
+    display:  flex;
+    flex-direction:  row;
+    justify-content: center;
+}
+
 .detalles-box{
     margin: 20px 0 30px;
 }
@@ -168,19 +185,27 @@ header{
 }
 
 .btn-style1{
-    padding: auto;
+    padding: auto !important;
     border-radius: 10px;
     background-color: transparent;
-    margin: 10px;
-    height: 30px;
+    height: 40px;
     border: 2px solid rgb(43, 43, 43);
     color: rgb(43, 43, 43);
+    font-size: 15px;
     text-decoration: none;
+    margin: 20px 10px;
 }
+
 
 .btn-style1:hover {
     color: pink;
     border: 2px solid pink;
+}
+
+.btn-center{
+    margin-left:  auto;
+    margin-right: auto;
+    display:  block;
 }
 
 .form-style1{
